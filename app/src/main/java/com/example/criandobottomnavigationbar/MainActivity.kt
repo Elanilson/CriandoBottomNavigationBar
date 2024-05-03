@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -23,21 +24,47 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNav = binding.bottomNavMain
 
-        val navController = findNavController(
-            R.id.fragmentContainerNavMain
-        )
+        /*    val navController = findNavController(
+                    R.id.fragmentContainerNavMain
+                )
 
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.menu_item_home,
-                R.id.menu_item_settings
-            )
-        )
+                val appBarConfiguration = AppBarConfiguration(
+                    setOf(
+                        R.id.menu_item_home,
+                        R.id.menu_item_settings
+                    )
+                )
 
-        setupActionBarWithNavController(
-            navController, appBarConfiguration
-        )
+                setupActionBarWithNavController(
+                    navController, appBarConfiguration
+                )
 
-        bottomNav.setupWithNavController( navController )
+                bottomNav.setupWithNavController( navController )*/
+
+
+
+        bottomNav.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_item_home -> {
+                    replaceFragment(HomeFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.menu_item_settings -> {
+                    replaceFragment(SettingsFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+
+                else -> return@setOnNavigationItemSelectedListener false
+            }
+        }
+
+
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerNavMain, fragment)
+            .commit()
+    }
     }
 }
